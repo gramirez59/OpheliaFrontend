@@ -1,0 +1,93 @@
+<div class="row clearfix" [@routerTransition]>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card main-content">
+            <div class="header">
+                <h2>{{ "Clientes" | localize }}</h2>
+                <ul class="header-dropdown m-r--5">
+                    <li>
+                        <button mat-icon-button [matMenuTriggerFor]="headerMenu" class="header-dropdown-mat-icon-button">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #headerMenu="matMenu">
+                            <button mat-menu-item (click)="refresh()">
+                                <mat-icon>refresh</mat-icon>
+                                <span>{{ "Refresh" | localize }}</span>
+                            </button>
+                        </mat-menu>
+                    </li>
+                </ul>
+            </div>
+            <div class="body table-responsive">
+                <!--query start-->
+                <div class="row clearfix">
+                    <form>
+                        <!--<mat-form-field>
+                            <input matInput [placeholder]="l('FilterClientes')" [(ngModel)]="keyword" name="keyword">
+                        </mat-form-field>-->
+
+                        <div class="row">
+                            <div class="col-md-12 text-right p-r-25">
+                                <mat-checkbox class="example-margin" [(ngModel)]="WithPurchases" name="WithPurchases">¿Clientes no mayores de 35 años con compras?</mat-checkbox>
+                            </div>
+                            <div class="col-md-12 text-right p-r-25">
+                                <button mat-raised-button color="primary" (click)="getDataPage(1)">{{ 'Buscar' | localize }}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--query end-->
+                <table class="table table-hover table-striped" [busy]="isTableLoading">
+                    <thead>
+                        <tr>
+                            <th>Cedula</th>
+                            <th>Primer Nombre</th>
+                            <th>Segundo Nombre</th>
+                            <th>Primer Apellido</th>
+                            <th>Segundo Apellido</th>
+                            <th>Edad</th>
+                            <th>Telefono</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="
+                let cliente of (clientes
+                  | paginate
+                    : {
+                        id: 'server',
+                        itemsPerPage: pageSize,
+                        currentPage: pageNumber,
+                        totalItems: totalItems
+                      })
+              ">
+                            <td>{{ cliente.cedula }}</td>
+                            <td>{{ cliente.primerNombre }}</td>
+                            <td>{{ cliente.segundoNombre }}</td>
+                            <td>{{ cliente.primerApellido }}</td>
+                            <td>{{ cliente.segundoApellido }}</td>
+                            <td>{{ cliente.edad }}</td>
+                            <td>{{ cliente.telefono }}</td>
+                            <td>
+                                <button class="action-button" mat-icon-button [matMenuTriggerFor]="actionsMenu">
+                                    <mat-icon>menu</mat-icon>
+                                </button>
+                                <mat-menu #actionsMenu="matMenu">
+                                    <button mat-menu-item (click)="delete(cliente)">
+                                        <mat-icon>delete</mat-icon>
+                                        <span>{{ "Delete" | localize }}</span>
+                                    </button>
+                                </mat-menu>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="abp-pagination-controls-wrapper" *ngIf="totalItems > pageSize">
+                    <abp-pagination-controls (pageChange)="getDataPage($event)" id="server">
+                    </abp-pagination-controls>
+                </div>
+                <button mat-mini-fab color="primary" class="pull-right" (click)="createCliente()">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

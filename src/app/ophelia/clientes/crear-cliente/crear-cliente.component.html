@@ -1,0 +1,107 @@
+<form autocomplete="off" #createClientModal="ngForm" (ngSubmit)="save()">
+    <h1 mat-dialog-title>{{ "Crear nuevo Cliente" | localize }}</h1>
+    <mat-dialog-content style="width:800px;height:370px;">
+      <mat-tab-group>
+        <mat-tab [label]="'Información del Cliente' | localize">
+          <br />
+          <div class="row-fluid">
+            <div class="col-md-6">
+              <mat-form-field>
+                <input
+                  matInput
+                  name="NumCedula"
+                  [placeholder]="'Cedula' | localize"
+                  [(ngModel)]="cliente.cedula"
+                  required
+                  type="number"
+                  minlength="1"
+                  maxlength="10"
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                />
+              </mat-form-field>
+              <mat-form-field>
+                <input
+                  matInput
+                  name="PrimerNombre"
+                  [placeholder]="'Primer Nombre' | localize"
+                  [(ngModel)]="cliente.primerNombre"
+                  required
+                  maxlength="32"
+                  #inputPrimerNombre (input)="inputPrimerNombre.value=$event.target.value.toUpperCase()"
+                />
+              </mat-form-field>
+              <mat-form-field>
+                <input
+                  matInput
+                  name="SegundoNombre"
+                  [placeholder]="'Segundo Nombre' | localize"
+                  [(ngModel)]="cliente.segundoNombre"
+                  maxlength="32"
+                  #inputSegundoNombre (input)="inputSegundoNombre.value=$event.target.value.toUpperCase()"
+                />
+              </mat-form-field>
+              <mat-form-field>
+              <input
+                  matInput
+                  name="PrimerApellido"
+                  [placeholder]="'Primer Apellido' | localize"
+                  [(ngModel)]="cliente.primerApellido"
+                  required
+                  maxlength="32"
+                  #inputPrimerApellido (input)="inputPrimerApellido.value=$event.target.value.toUpperCase()"
+                />
+              </mat-form-field>
+              <mat-form-field>
+                <input
+                    matInput
+                    name="SegundoApellido"
+                    [placeholder]="'Segundo Apellido' | localize"
+                    [(ngModel)]="cliente.segundoApellido"
+                    maxlength="32"
+                    #inputSegundoApellido (input)="inputSegundoApellido.value=$event.target.value.toUpperCase()"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input
+                      matInput
+                      name="Edad"
+                      [placeholder]="'Edad' | localize"
+                      [(ngModel)]="cliente.edad"
+                      type="number"
+                      minlength="1"
+                      maxlength="2"
+                      #inputDireccion (input)="inputDireccion.value=$event.target.value.toUpperCase()"
+                    />
+                  </mat-form-field>
+                  <mat-form-field>
+                  <input
+                      matInput
+                      name="Telefono"
+                      [placeholder]="'Telefono' | localize"
+                      [(ngModel)]="cliente.telefono"
+                      type="number"
+                      maxlength="32"
+                    />
+                  </mat-form-field>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-dialog-content>
+    <div mat-dialog-actions align="end">
+      <button mat-button type="button" [disabled]="saving" (click)="close(false)">
+        {{ "Cancel" | localize }}
+      </button>
+      <button
+        mat-flat-button
+        type="submit"
+        flex="15"
+        color="primary"
+        [disabled]="!createClientModal.form.valid || saving"
+      >
+        {{ "Save" | localize }}
+      </button>
+    </div>
+  </form>
